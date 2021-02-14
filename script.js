@@ -14,6 +14,27 @@ function getFromGithub(uri) {
         xhr.send(null);
     })
 }
+//*
+function searchUsers(query) {
+    return getFromGithub(`search/users?q=${query}`)
+}
+
+function drawFoundUsers(users) {
+    console.log(users) //ToDo draw dropdown search
+}
+
+function initSearch(){
+    let timeout;
+    function debounce(func, delay) {
+        clearTimeout(timeout);
+        timeout = setTimeout(func, delay);
+    }
+    document
+        .getElementById("userName")
+        .addEventListener("input", ev => debounce(
+            () => searchUsers(ev.target.value).then(users => drawFoundUsers(users)), 1000
+        ))
+}
 
 function drawGetRequestFailed(cause) {
     console.log("Failure: " + cause)
